@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="api_key">YOUR_API_KEY</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="nav_desc">Powered by The Movie Database</string>
+
+    <string name="about">About</string>
+    <string name="popular">Most Popular</string>
+    <string name="rating">Top Rated</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="now_playing">Playing Now</string>
+    <string name="favourites">Favourites</string>
+    <string name="more">More</string>
+
+    <string name="close">Close</string>
+    <string name="refresh">Refresh</string>
+    <string name="share">Share</string>
+
+    <string name="details">Know More!</string>
+    <string name="sorting">Sorting</string>
+    <string name="desc1">Popular Movies suggestion app developed as part of the Udacity Android Developer Nanodegree programme</string>
+    <string name="desc2">Developed by Pratyusha Maiti</string>
+    <string name="intro1">A popular movies suggestion app powered by The Movie Database</string>
+    <string name="intro2">Tap a movie poster on the grid view to open detailed view including synopsis, ratings, reviews* and trailers*</string>
+    <string name="intro3">Use the navigation drawer to select sorting criteria</string>
+    <string name="oss">Libraries</string>
+
+    <string name="fork">Fork on GitHub</string>
+    <string name="site">Website</string>
+    <string name="git">GitHub</string>
+    <string name="gplus">Google+</string>
+
+    <string name="synopsis">Synopsis</string>
+    <string name="release">Release date</string>
+    <string name="ratings">Rating</string>
+    <string name="trailer">Trailers</string>
+    <string name="review">Reviews</string>
+
+    <string name="action_settings">Settings</string>
+</resources>
