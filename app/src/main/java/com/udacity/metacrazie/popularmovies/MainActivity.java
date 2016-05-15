@@ -3,12 +3,9 @@ package com.udacity.metacrazie.popularmovies;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.AsyncTask;
+
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
+
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,18 +19,6 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
@@ -111,6 +96,10 @@ public class MainActivity extends AppCompatActivity
             assert label != null;
             label.setText(getString(R.string.upcoming));
         }
+        else if (s.equals("now_playing")) {
+            assert label != null;
+            label.setText(getString(R.string.now_playing));
+        }
         GridViewAdapter mAdapter= new GridViewAdapter(this, movieResults);
         moviesGridView.setAdapter(mAdapter);
         populateMovies();
@@ -165,8 +154,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.refresh) {
+            populateMovies();
         }
 
         return super.onOptionsItemSelected(item);

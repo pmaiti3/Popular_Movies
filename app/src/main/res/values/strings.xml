@@ -38,5 +38,9 @@
     <string name="trailer">Trailers</string>
     <string name="review">Reviews</string>
 
+
+    <string name="author">Author</string>
+    <string name="no_reviews">No reviews yet.</string>
+
     <string name="action_settings">Settings</string>
 </resources>

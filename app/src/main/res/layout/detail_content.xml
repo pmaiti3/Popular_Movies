@@ -129,12 +129,12 @@
                             android:id="@+id/trailer"
                             android:textStyle="bold"
                             android:text="@string/trailer"/>
-                        <TextView
-                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        <android.support.v7.widget.RecyclerView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/mtrailer"
-                            android:text="Coming soon..."/>
+                            android:clickable="true"
+                            android:id="@+id/trailers"
+                            android:visibility="gone"/>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
                 <android.support.v7.widget.CardView
@@ -153,12 +153,12 @@
                             android:id="@+id/review"
                             android:textStyle="bold"
                             android:text="@string/review"/>
-                        <TextView
-                            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                        <android.support.v7.widget.RecyclerView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/mreview"
-                            android:text="Coming soon..."/>
+                            android:clickable="true"
+                            android:id="@+id/reviews"
+                            android:visibility="gone"/>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
             </LinearLayout>

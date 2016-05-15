@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class GridViewAdapter extends ArrayAdapter<MovieObj> {
 
     private static class ViewHolder {
         ImageView posterView;
-
+        TextView title;
     }
 
     @Override
@@ -52,7 +54,7 @@ public class GridViewAdapter extends ArrayAdapter<MovieObj> {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.grid_item, null);
             holder = new ViewHolder();
-            holder.posterView = (ImageView) convertView.findViewById(R.id.poster_thumbnail);
+            holder.posterView = (ImageView) convertView.findViewById(R.id.grid_image);
             convertView.setTag(holder);
         } else holder = (ViewHolder) convertView.getTag();
 

@@ -6,9 +6,12 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by Pratyusha on 24/03/2016.
@@ -30,6 +34,14 @@ public class Details extends AppCompatActivity {
     String poster;
     String vote;
     String bg;
+
+
+    ArrayList<ReviewObj> rList = new ArrayList<>();
+    RecyclerView tGrid;
+
+    ArrayList<TrailerObj> tList = new ArrayList<>();
+    RecyclerView mReView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +77,21 @@ public class Details extends AppCompatActivity {
             bg= savedInstanceState.getString("bg");
             update(title, plot, date, vote, poster, bg);
         }
+
+
+        mReView = (RecyclerView) findViewById(R.id.reviews);
+        tGrid= (RecyclerView) findViewById(R.id.trailers);
+        tGrid.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mReView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mReView.setNestedScrollingEnabled(false);
+        mReView.setHasFixedSize(true);
+
+
+        new FetchTrailers(this, tGrid, tList, id).execute("trailers" );
+
+        new FetchReviews(this, mReView, rList, id).execute("reviews");
+
+
     }
 
     @Override
@@ -107,6 +134,8 @@ public class Details extends AppCompatActivity {
         state.putString("bg", bg);
     }
 
+
+
     public void update(String t, String p, String d, String v, final String post, String back) {
 
 
@@ -127,7 +156,6 @@ public class Details extends AppCompatActivity {
                 .into(poster);
         Picasso.with(this)
                 .load(back)
-                .error(R.drawable.placeholder_w)
                 .into(backdrop);
     }
     public static Bitmap getBitmapFromURL(String src) {
