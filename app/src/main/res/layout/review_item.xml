@@ -8,7 +8,6 @@
     android:foreground="?android:attr/selectableItemBackground"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true">
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -37,5 +36,4 @@
 
 
     </LinearLayout>
-
 </android.support.v7.widget.CardView>

@@ -1,5 +1,6 @@
 package com.udacity.metacrazie.popularmovies;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,7 +26,7 @@ import java.util.ArrayList;
 /**
  * Created by Pratyusha on 24/03/2016.
  */
-public class Details extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity {
     int id;
     String title;
     String plot;
@@ -37,10 +37,10 @@ public class Details extends AppCompatActivity {
 
 
     ArrayList<ReviewObj> rList = new ArrayList<>();
-    RecyclerView tGrid;
+    RecyclerView tView;
 
     ArrayList<TrailerObj> tList = new ArrayList<>();
-    RecyclerView mReView;
+    RecyclerView rView;
 
 
     @Override
@@ -50,6 +50,9 @@ public class Details extends AppCompatActivity {
         Toolbar toolbar= (Toolbar) findViewById(R.id.toolbar_detail);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+
 
         if (savedInstanceState==null)
         {
@@ -79,20 +82,33 @@ public class Details extends AppCompatActivity {
         }
 
 
-        mReView = (RecyclerView) findViewById(R.id.reviews);
-        tGrid= (RecyclerView) findViewById(R.id.trailers);
-        tGrid.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        mReView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        mReView.setNestedScrollingEnabled(false);
-        mReView.setHasFixedSize(true);
+        rView = (RecyclerView) findViewById(R.id.reviews);
+        tView= (RecyclerView) findViewById(R.id.trailers);
+        tView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        rView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        rView.setNestedScrollingEnabled(true);
+        rView.setHasFixedSize(true);
 
 
-        new FetchTrailers(this, tGrid, tList, id).execute("trailers" );
-
-        new FetchReviews(this, mReView, rList, id).execute("reviews");
+        new FetchTrailers(this, tView, tList, id).execute("trailers" );
+        new FetchReviews(this, rView, rList, id).execute("reviews");
 
 
     }
+
+
+   /* public void showFragment()
+    {
+        DetailsFragment detailsFragment=DetailsFragment.newInstance();
+
+        FragmentTransaction transact=getSupportFragmentManager().beginTransaction();
+
+        transact.add(R.id.fragment_details, detailsFragment, "lastSMSFragment");
+
+        transact.commit();
+    } */
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

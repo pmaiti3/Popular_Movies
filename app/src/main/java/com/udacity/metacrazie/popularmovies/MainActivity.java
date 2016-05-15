@@ -4,8 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -24,6 +29,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+ private CoordinatorLayout coordinatorLayout;
+    private static final String TAG = "MyActivity";
     GridView moviesGridView;
     public ArrayList<MovieObj> movieResults = new ArrayList<>();
 
@@ -40,6 +47,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id
+                .coordinatorLayout);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -79,32 +88,33 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        moviesGridView = (GridView) findViewById(R.id.gridview);
-        TextView label= (TextView) findViewById(R.id.label);
-
-        SharedPreferences pref= getSharedPreferences("Prefs",MODE_PRIVATE);
-        String s=pref.getString("sort","popular");
-        if (s.equals("popular")) {
-            assert label != null;
-            label.setText(getString(R.string.popular));
-        }
-        else if (s.equals("top_rated")) {
-            assert label != null;
-            label.setText(getString(R.string.rating));
-        }
-        else if (s.equals("upcoming")) {
-            assert label != null;
-            label.setText(getString(R.string.upcoming));
-        }
-        else if (s.equals("now_playing")) {
-            assert label != null;
-            label.setText(getString(R.string.now_playing));
-        }
-        GridViewAdapter mAdapter= new GridViewAdapter(this, movieResults);
-        moviesGridView.setAdapter(mAdapter);
-        populateMovies();
+    moviesGridView = (GridView) findViewById(R.id.gridview);
+    TextView label = (TextView) findViewById(R.id.label);
 
 
+    SharedPreferences pref = getSharedPreferences("Prefs", MODE_PRIVATE);
+    String s = pref.getString("sort", "popular");
+    if (s.equals("popular")) {
+        assert label != null;
+        label.setText(getString(R.string.popular));
+    } else if (s.equals("top_rated")) {
+        assert label != null;
+        label.setText(getString(R.string.rating));
+    } else if (s.equals("upcoming")) {
+        assert label != null;
+        label.setText(getString(R.string.upcoming));
+    } else if (s.equals("now_playing")) {
+        assert label != null;
+        label.setText(getString(R.string.now_playing));
+    }
+        if(isNetworkAvailable()) {
+    GridViewAdapter mAdapter = new GridViewAdapter(this, movieResults);
+    moviesGridView.setAdapter(mAdapter);
+    populateMovies();
+}
+        else
+        Snackbar.make(coordinatorLayout, "Please connect to internet and try again", Snackbar.LENGTH_INDEFINITE).show();
+        Log.d(TAG,"Network");
     }
 
 
@@ -113,7 +123,7 @@ public class MainActivity extends AppCompatActivity
     {
         int p=moviesGridView.getPositionForView(v);
         MovieObj m= (MovieObj) moviesGridView.getItemAtPosition(p);
-        Intent i=new Intent(MainActivity.this, Details.class);
+        Intent i=new Intent(MainActivity.this, DetailsActivity.class);
         i.putExtra("id", m.id);
         i.putExtra("title", m.title);
         i.putExtra("release_date", m.year);
@@ -155,7 +165,10 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.refresh) {
+            if(isNetworkAvailable())
             populateMovies();
+            else
+                Snackbar.make(coordinatorLayout, "Please connect to internet and try again", Snackbar.LENGTH_INDEFINITE).show();
         }
 
         return super.onOptionsItemSelected(item);
@@ -176,33 +189,45 @@ public class MainActivity extends AppCompatActivity
             edit.putString("sort", "popular");
             label.setText(getString(R.string.popular));
             edit.commit();
+            if(isNetworkAvailable())
             populateMovies();
+            else
+                Snackbar.make(coordinatorLayout, "Please connect to internet and try again", Snackbar.LENGTH_INDEFINITE).show();
         } else if (id == R.id.rating) {
             edit.putString("sort", "top_rated");
             label.setText(getString(R.string.rating));
             edit.commit();
+            if(isNetworkAvailable())
             populateMovies();
+            else
+                Snackbar.make(coordinatorLayout, "Please connect to internet and try again", Snackbar.LENGTH_INDEFINITE).show();
         }else if (id == R.id.upcoming) {
             edit.putString("sort", "upcoming");
             label.setText(getString(R.string.upcoming));
             edit.commit();
+            if(isNetworkAvailable())
             populateMovies();
+            else
+                Snackbar.make(coordinatorLayout, "Please connect to internet and try again", Snackbar.LENGTH_INDEFINITE).show();
         }
         else if (id == R.id.now_playing) {
             edit.putString("sort", "now_playing");
             label.setText(getString(R.string.now_playing));
             edit.commit();
+            if(isNetworkAvailable())
             populateMovies();
+            else
+                Snackbar.make(coordinatorLayout, "Please connect to internet and try again", Snackbar.LENGTH_INDEFINITE).show();
         }
         else if (id == R.id.fav) {
-            Toast.makeText(MainActivity.this, "Feature yet to be added", Toast.LENGTH_SHORT).show();
+            Snackbar.make(coordinatorLayout, "Feature yet to be added", Snackbar.LENGTH_INDEFINITE).show();
         }
         else if (id == R.id.about) {
 
             Intent i= new Intent(MainActivity.this, About.class);
             startActivity(i);
         } else if (id == R.id.action_settings) {
-            Toast.makeText(MainActivity.this, "Feature yet to be added", Toast.LENGTH_SHORT).show();
+            Snackbar.make(coordinatorLayout, "Feature yet to be added", Snackbar.LENGTH_INDEFINITE).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -216,5 +241,16 @@ public class MainActivity extends AppCompatActivity
         new FetchSearchResults(this, moviesGridView,movieResults, getSharedPreferences("Prefs", Context.MODE_PRIVATE) ).execute("discover");
     }
 
+    private boolean isNetworkAvailable() {
+        boolean isNetworkAvailable = false;
 
-}
+        ConnectivityManager manager = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            isNetworkAvailable = true;
+        }
+
+        return isNetworkAvailable;
+
+    }}
