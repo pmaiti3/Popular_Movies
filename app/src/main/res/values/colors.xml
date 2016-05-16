@@ -8,6 +8,9 @@
     <color name="blueGray500">#607D8B</color>
     <color name="blueGray900">#263238</color>
     <color name="sidebarHead">#222222</color>
+    <color name="grey900">#212121</color>
+    <color name="grey800">#424242</color>
+    <color name="grey400">#BDBDBD</color>
     <color name="sidebarHeadGrad">#444444</color>
     <color name="white">#ffffff</color>
 </resources>

@@ -39,6 +39,7 @@
         <FrameLayout
             android:id="@+id/details"
             android:layout_width="0px"
+            android:background="@color/grey900"
             android:layout_height="match_parent"
             android:layout_weight="3">
 
@@ -49,6 +50,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:padding="@dimen/activity_horizontal_margin"
+                android:textColor="@color/grey400"
                 android:text="@string/blank_fragment"
                 android:textAppearance="?android:attr/textAppearanceButton" />
 

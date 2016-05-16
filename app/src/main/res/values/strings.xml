@@ -31,7 +31,7 @@
     <string name="site">Website</string>
     <string name="git">GitHub</string>
     <string name="gplus">Google+</string>
-    <string name="blank_fragment">Click to view</string>
+    <string name="blank_fragment">Tap on a movie poster to view details</string>
     <string name="synopsis">Synopsis</string>
     <string name="release">Release date</string>
     <string name="ratings">Rating</string>

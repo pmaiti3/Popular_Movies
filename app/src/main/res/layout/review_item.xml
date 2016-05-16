@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="@dimen/horizontal_padding"
+    app:cardBackgroundColor="@color/grey800"
     android:layout_marginBottom="1dp"
     android:foreground="?android:attr/selectableItemBackground"
     android:background="?android:attr/selectableItemBackground"
@@ -19,6 +20,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/horizontal_margin_half"
+
+            android:textColor="@color/grey400"
             android:clickable="true"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/review_body" />
@@ -27,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
+            android:textColor="@color/white"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:paddingLeft="@dimen/horizontal_margin_half"
             android:paddingRight="@dimen/horizontal_margin_half"

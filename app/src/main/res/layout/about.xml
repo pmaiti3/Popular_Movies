@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/grey900"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -25,6 +26,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/aboutIcon"
                 android:textStyle="bold"
+                android:textColor="@color/white"
                 android:layout_marginBottom="16dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:text="@string/app_name"
@@ -40,6 +42,7 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 app:cardElevation="8dp"
+                app:cardBackgroundColor="@color/grey800"
                 android:clickable="true"
                 android:foreground="?android:attr/selectableItemBackground">
                 <RelativeLayout
@@ -49,6 +52,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/desc1"
+                        android:textColor="@color/grey400"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:layout_margin="16dp"
                         android:text="@string/desc1"/>
@@ -87,6 +91,7 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 app:cardElevation="8dp"
+                app:cardBackgroundColor="@color/grey800"
                 android:foreground="?android:attr/selectableItemBackground">
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -95,6 +100,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/desc2"
+                        android:textColor="@color/grey400"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                         android:layout_margin="16dp"
                         android:text="@string/desc2"/>
