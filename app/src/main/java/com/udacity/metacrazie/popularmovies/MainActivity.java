@@ -1,15 +1,20 @@
 package com.udacity.metacrazie.popularmovies;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -33,13 +38,24 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = "MyActivity";
     GridView moviesGridView;
     public ArrayList<MovieObj> movieResults = new ArrayList<>();
+    boolean dualPane;
+    public MovieDBHandler mDb;
+    SharedPreferences pref;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+        dualPane=true;
 
+        else if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+        dualPane=false;
 
+        mDb = new MovieDBHandler(this);
+
+        pref = getSharedPreferences("Prefs", MODE_PRIVATE);
 
 
 
@@ -107,6 +123,10 @@ public class MainActivity extends AppCompatActivity
         assert label != null;
         label.setText(getString(R.string.now_playing));
     }
+    else if (s.equals("fav")) {
+        assert label != null;
+        label.setText(getString(R.string.favourites));
+    }
         if(isNetworkAvailable()) {
     GridViewAdapter mAdapter = new GridViewAdapter(this, movieResults);
     moviesGridView.setAdapter(mAdapter);
@@ -123,17 +143,60 @@ public class MainActivity extends AppCompatActivity
     {
         int p=moviesGridView.getPositionForView(v);
         MovieObj m= (MovieObj) moviesGridView.getItemAtPosition(p);
+
+        if(dualPane) Log.d(TAG, "Landscape View");
+        else
+        Log.d(TAG, "Portrait View");
+        //Portrait
+        if (!dualPane){
         Intent i=new Intent(MainActivity.this, DetailsActivity.class);
         i.putExtra("id", m.id);
         i.putExtra("title", m.title);
         i.putExtra("release_date", m.year);
         i.putExtra("vote_avg", m.vote_avg);
         i.putExtra("plot", m.plot);
-        i.putExtra("poster", m.posterUrl);
-        i.putExtra("bg", m.bgUrl);
-        startActivity(i);
-    }
+        i.putExtra("poster", m.poster);
+        i.putExtra("bg", m.bg);
+        startActivity(i); }
+        //Landscape
+        else
+        {
+            DetailsFragment details = (DetailsFragment) getSupportFragmentManager().findFragmentById(R.id.details);
 
+
+            try {
+
+                Bundle bundle=new Bundle();
+                bundle.putInt("id", m.id);
+                bundle.putString("title", m.title);
+                bundle.putString("release_date", m.year);
+                bundle.putString("vote_avg", m.vote_avg);
+                bundle.putString("plot", m.plot);
+                bundle.putString("poster", m.poster);
+                bundle.putString("bg", m.bg);
+
+                findViewById(R.id.blankText).setVisibility(View.GONE);
+
+                    DetailsFragment fragment=new DetailsFragment();
+                    fragment.setArguments(bundle);
+                    // Make new fragment to show this selection.
+                    details = DetailsFragment.newInstance(p, bundle);
+
+
+                    // Execute a transaction, replacing any existing fragment
+                    // with this one inside the frame.
+
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.details, details).commit();
+                    // Commit the transaction
+
+
+            } catch (NullPointerException | IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 
 
 
@@ -220,14 +283,17 @@ public class MainActivity extends AppCompatActivity
                 Snackbar.make(coordinatorLayout, "Please connect to internet and try again", Snackbar.LENGTH_INDEFINITE).show();
         }
         else if (id == R.id.fav) {
-            Snackbar.make(coordinatorLayout, "Feature yet to be added", Snackbar.LENGTH_INDEFINITE).show();
+            edit.putString("sort", "fav");
+            label.setText(getString(R.string.favourites));
+            edit.commit();
+            populateMovies();
         }
         else if (id == R.id.about) {
 
             Intent i= new Intent(MainActivity.this, About.class);
             startActivity(i);
         } else if (id == R.id.action_settings) {
-            Snackbar.make(coordinatorLayout, "Feature yet to be added", Snackbar.LENGTH_INDEFINITE).show();
+            Snackbar.make(coordinatorLayout, "Feature yet to be added", Snackbar.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -238,7 +304,20 @@ public class MainActivity extends AppCompatActivity
 
 
     private void populateMovies() {
-        new FetchSearchResults(this, moviesGridView,movieResults, getSharedPreferences("Prefs", Context.MODE_PRIVATE) ).execute("discover");
+
+        moviesGridView.removeAllViewsInLayout();
+        String sort = pref.getString("sort", "popular");
+        if (sort.equals("fav")) {
+            Log.d("Fav", "show favourites");
+            movieResults = mDb.getAllMovies();
+            GridViewAdapter mAdapter = new GridViewAdapter(this, movieResults);
+            moviesGridView.setAdapter(mAdapter);
+
+            if (movieResults.isEmpty()) {
+                Snackbar.make(coordinatorLayout, R.string.no_fav, Snackbar.LENGTH_LONG).show();
+            }
+        } else new FetchSearchResults(this, moviesGridView, movieResults, pref).execute("discover");
+
     }
 
     private boolean isNetworkAvailable() {

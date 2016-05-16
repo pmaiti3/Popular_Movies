@@ -31,7 +31,7 @@
     <string name="site">Website</string>
     <string name="git">GitHub</string>
     <string name="gplus">Google+</string>
-
+    <string name="blank_fragment">Click to view</string>
     <string name="synopsis">Synopsis</string>
     <string name="release">Release date</string>
     <string name="ratings">Rating</string>
@@ -45,6 +45,7 @@ reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Ex
 cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</string>
     <string name="author">Author</string>
     <string name="no_reviews">No reviews yet.</string>
+    <string name="no_fav">No favourites yet!</string>
 
     <string name="action_settings">Settings</string>
 

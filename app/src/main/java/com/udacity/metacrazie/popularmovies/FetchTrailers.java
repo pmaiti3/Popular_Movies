@@ -63,11 +63,13 @@ public class FetchTrailers extends AsyncTask<String, Void, ArrayList<TrailerObj>
         final String API_KEY_PARAM = "api_key";
 
         //build the review URL
-        buildUri = Uri.parse(SEARCH_BASE_URL).buildUpon()
+            buildUri = Uri.parse(SEARCH_BASE_URL).buildUpon()
                 .appendPath(String.valueOf(movieId))
                 .appendPath("videos")
                 .appendQueryParameter(API_KEY_PARAM, API_KEY)
                 .build();
+
+
         URL url = null;
 
         try {

@@ -25,18 +25,25 @@ public class MovieObj {
     }
 
     public String getPosterUrl() {
-        return posterUrl;
+        return poster;
     }
 
     public void setPosterUrl(String posterUrl) {
-        this.posterUrl = posterUrl;
+        this.poster = posterUrl;
     }
     public String getBackdropUrl() {
-        return posterUrl;
+        return poster;
     }
 
     public void setBackdropUrl(String bgUrl) {
-        this.bgUrl = bgUrl;
+        this.bg = bgUrl;
+    }
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
 
@@ -53,19 +60,20 @@ public class MovieObj {
 
     String title;
     String year;
-    String posterUrl;
+    String poster;
     String plot;
     int id;
-    String bgUrl;
+    String bg;
     String vote_avg;
+    String overview;
 
     public MovieObj(String t, String y, String p, String mPlot, int id, String bg, String vote) {
         this.title = t;
         this.plot = mPlot;
         this.year = y;
-        this.posterUrl = p;
+        this.poster = p;
         this.id=id;
-        this.bgUrl=bg;
+        this.bg=bg;
         this.vote_avg=vote;
     }
 }

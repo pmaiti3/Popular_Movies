@@ -6,12 +6,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,8 +39,8 @@ public class DetailsActivity extends AppCompatActivity {
     String poster;
     String vote;
     String bg;
-
-
+    MovieDBHandler dbHandler;
+    CoordinatorLayout coordinatorLayout;
     ArrayList<ReviewObj> rList = new ArrayList<>();
     RecyclerView tView;
 
@@ -51,8 +56,8 @@ public class DetailsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.detailsCoordinatorLayout);
+        dbHandler= new MovieDBHandler(this);
 
         if (savedInstanceState==null)
         {
@@ -94,19 +99,33 @@ public class DetailsActivity extends AppCompatActivity {
         new FetchReviews(this, rView, rList, id).execute("reviews");
 
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        if (fab != null)
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    OnFabClick(v);
+                }
+            });
+
+    }
+
+    public void OnFabClick(View v)
+    {
+        Log.d("Pass to Handler", Integer.toString(id));
+       if (dbHandler.isPresent(id)) {
+            dbHandler.deleteMovie(id);
+            ((FloatingActionButton) v).setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_border_white_18dp));
+            Snackbar.make(coordinatorLayout, "Movie removed", Snackbar.LENGTH_SHORT).show();
+        } else {
+           Log.d("SQLite", "Not present, adding");
+           dbHandler.addMovie(id, title, plot, date, vote, poster, bg);
+           ((FloatingActionButton) v).setImageDrawable(getResources().getDrawable(R.drawable.ic_favorite_white_24dp));
+           Snackbar.make(coordinatorLayout, "Movie added", Snackbar.LENGTH_SHORT).show();
+       }
     }
 
 
-   /* public void showFragment()
-    {
-        DetailsFragment detailsFragment=DetailsFragment.newInstance();
-
-        FragmentTransaction transact=getSupportFragmentManager().beginTransaction();
-
-        transact.add(R.id.fragment_details, detailsFragment, "lastSMSFragment");
-
-        transact.commit();
-    } */
 
 
 
@@ -162,9 +181,13 @@ public class DetailsActivity extends AppCompatActivity {
         TextView vote = (TextView) findViewById(R.id.mvote);
         ImageView poster = (ImageView) findViewById(R.id.poster);
         ImageView backdrop = (ImageView) findViewById(R.id.bg_img);
+        assert poster != null;
         poster.setMinimumHeight(poster.getWidth());
+        assert plot != null;
         plot.setText(p);
+        assert date != null;
         date.setText(d);
+        assert vote != null;
         vote.setText(v);
         Picasso.with(this)
                 .load(post)

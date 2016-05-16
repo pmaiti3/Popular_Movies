@@ -3,6 +3,7 @@ package com.udacity.metacrazie.popularmovies;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         ViewHolder viewHolder = new ViewHolder(v);
         viewHolder.reviewBody = (TextView) v.findViewById(R.id.review_body);
         viewHolder.reviewAuthor = (TextView) v.findViewById(R.id.review_author);
-
+        Log.d("Review Adapter", "Set textviews");
         return viewHolder;
     }
 
@@ -59,15 +60,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         else
             holder.reviewAuthor.setVisibility(View.GONE);
 
-      /*  holder.reviewBody.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder reviewDialog = new AlertDialog.Builder(context, R.style.AppTheme_PopupOverlay);
-                AlertDialog show = reviewDialog.setMessage(review.getRText())
-                        .setTitle(context.getString(R.string.author) + review.getRAuth())
-                        .show();
-            }
-        }); */
     }
 
     @Override
