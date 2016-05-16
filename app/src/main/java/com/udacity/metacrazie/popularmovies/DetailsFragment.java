@@ -2,6 +2,7 @@ package com.udacity.metacrazie.popularmovies;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -119,7 +120,7 @@ static Bundle extras;
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Toolbar toolbar= (Toolbar) getActivity().findViewById(R.id.toolbar_detail);
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar_detail);
         coordinatorLayout = (CoordinatorLayout) getActivity().findViewById(R.id.detailsCoordinatorLayout);
      /*   setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -127,86 +128,81 @@ static Bundle extras;
         mHelper = new MovieDBHandler(getActivity());
 
 
-        if (savedInstanceState==null)
-        {
-            if(extras!=null)
-            {
-                id= extras.getInt("id");
-                title= extras.getString("title", "Title");
-                plot= extras.getString("plot", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
-                date= extras.getString("release_date", "01-01-1970");
-                poster= extras.getString("poster", "https://c1.staticflickr.com/1/186/382004453_f4b2772254.jpg");
-                vote= extras.getString("vote_avg", "0.0");
-                bg= extras.getString("bg");
+        if (savedInstanceState == null) {
+            if (extras != null) {
+                id = extras.getInt("id");
+                title = extras.getString("title", "Title");
+                plot = extras.getString("plot", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
+                date = extras.getString("release_date", "01-01-1970");
+                poster = extras.getString("poster", "https://c1.staticflickr.com/1/186/382004453_f4b2772254.jpg");
+                vote = extras.getString("vote_avg", "0.0");
+                bg = extras.getString("bg");
                 /*update(title, plot, date, vote, poster, bg);*/
             }
 
 
-
-
-        }
-        else
-        {
-            id= savedInstanceState.getInt("id");
-            title= savedInstanceState.getString("title", "Title");
-            plot= savedInstanceState.getString("plot", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
-            date= savedInstanceState.getString("release_date", "01-01-1970");
-            poster= savedInstanceState.getString("poster","https://c1.staticflickr.com/1/186/382004453_f4b2772254.jpg");
-            vote= savedInstanceState.getString("vote_avg", "0.0");
-            bg= savedInstanceState.getString("bg");
+        } else {
+            id = savedInstanceState.getInt("id");
+            title = savedInstanceState.getString("title", "Title");
+            plot = savedInstanceState.getString("plot", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum");
+            date = savedInstanceState.getString("release_date", "01-01-1970");
+            poster = savedInstanceState.getString("poster", "https://c1.staticflickr.com/1/186/382004453_f4b2772254.jpg");
+            vote = savedInstanceState.getString("vote_avg", "0.0");
+            bg = savedInstanceState.getString("bg");
            /* update(title, plot, date, vote, poster, bg); */
         }
 
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            CollapsingToolbarLayout c = (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_collapse);
+            c.setTitle(title);
+            TextView plotText = (TextView) getActivity().findViewById(R.id.mplot);
+            Log.d(TAG, "plot set");
+            TextView dateText = (TextView) getActivity().findViewById(R.id.mdate);
+            Log.d(TAG, "date set");
+            TextView voteText = (TextView) getActivity().findViewById(R.id.mvote);
+            Log.d(TAG, "vote set");
+            ImageView posterImage = (ImageView) getActivity().findViewById(R.id.poster);
+            Log.d(TAG, "poster set");
+            ImageView backdrop = (ImageView) getActivity().findViewById(R.id.bg_img);
+            Log.d(TAG, "backdrop set");
 
-        CollapsingToolbarLayout c= (CollapsingToolbarLayout) getActivity().findViewById(R.id.toolbar_collapse);
-        c.setTitle(title);
-        TextView plotText = (TextView) getActivity().findViewById(R.id.mplot);
-        Log.d(TAG, "plot set");
-        TextView dateText = (TextView) getActivity().findViewById(R.id.mdate);
-        Log.d(TAG, "date set");
-        TextView voteText = (TextView) getActivity().findViewById(R.id.mvote);
-        Log.d(TAG, "vote set");
-        ImageView posterImage = (ImageView) getActivity().findViewById(R.id.poster);
-        Log.d(TAG, "poster set");
-        ImageView backdrop = (ImageView) getActivity().findViewById(R.id.bg_img);
-        Log.d(TAG, "backdrop set");
+            posterImage.setMinimumHeight(posterImage.getWidth());
 
-        posterImage.setMinimumHeight(posterImage.getWidth());
+            plotText.setText(plot);
 
-        plotText.setText( plot);
+            dateText.setText(date);
 
-        dateText.setText(date);
-
-        voteText.setText(vote);
-        Picasso.with(getActivity())
-                .load(poster)
-                .error(R.drawable.placeholder)
-                .into(posterImage);
-        Picasso.with(getActivity())
-                .load(bg)
-                .into(backdrop);
+            voteText.setText(vote);
+            Picasso.with(getActivity())
+                    .load(poster)
+                    .error(R.drawable.placeholder)
+                    .into(posterImage);
+            Picasso.with(getActivity())
+                    .load(bg)
+                    .into(backdrop);
 
 
-        rView = (RecyclerView) getActivity().findViewById(R.id.reviews);
-        tView= (RecyclerView) getActivity().findViewById(R.id.trailers);
-        tView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        rView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        rView.setNestedScrollingEnabled(true);
-        rView.setHasFixedSize(true);
+            rView = (RecyclerView) getActivity().findViewById(R.id.reviews);
+            tView = (RecyclerView) getActivity().findViewById(R.id.trailers);
+            tView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+            rView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+            rView.setNestedScrollingEnabled(true);
+            rView.setHasFixedSize(true);
 
-        Log.d(TAG, "Fetch  trailers");
-        new FetchTrailers(getActivity(), tView, tList, id).execute("trailers" );
-        Log.d(TAG, "Fetch review");
-        new FetchReviews(getActivity(), rView, rList, id).execute("reviews");
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        if (fab != null)
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    OnFabClick(v);
-                }
-            });
+            Log.d(TAG, "Fetch  trailers");
+            new FetchTrailers(getActivity(), tView, tList, id).execute("trailers");
+            Log.d(TAG, "Fetch review");
+            new FetchReviews(getActivity(), rView, rList, id).execute("reviews");
+            FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+            if (fab != null)
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        OnFabClick(v);
+                    }
+                });
 
+        }else Log.d("Fragment", "orientation");
     }
 
 

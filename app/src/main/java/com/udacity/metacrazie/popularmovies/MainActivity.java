@@ -303,7 +303,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void populateMovies() {
+    public void populateMovies() {
 
         moviesGridView.removeAllViewsInLayout();
         String sort = pref.getString("sort", "popular");
