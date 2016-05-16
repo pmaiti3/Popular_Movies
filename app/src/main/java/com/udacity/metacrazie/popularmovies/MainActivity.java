@@ -183,10 +183,6 @@ public class MainActivity extends AppCompatActivity
                     // Make new fragment to show this selection.
                     details = DetailsFragment.newInstance(p, bundle);
 
-
-                    // Execute a transaction, replacing any existing fragment
-                    // with this one inside the frame.
-
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.details, details).commit();
                     // Commit the transaction
