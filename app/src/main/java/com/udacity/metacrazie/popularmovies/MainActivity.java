@@ -176,8 +176,9 @@ public class MainActivity extends AppCompatActivity
                 bundle.putString("bg", m.bg);
 
                 findViewById(R.id.blankText).setVisibility(View.GONE);
+                if (isNetworkAvailable()) {
 
-                    DetailsFragment fragment=new DetailsFragment();
+                    DetailsFragment fragment = new DetailsFragment();
                     fragment.setArguments(bundle);
                     // Make new fragment to show this selection.
                     details = DetailsFragment.newInstance(p, bundle);
@@ -190,7 +191,7 @@ public class MainActivity extends AppCompatActivity
                             .replace(R.id.details, details).commit();
                     // Commit the transaction
 
-
+                }
             } catch (NullPointerException | IndexOutOfBoundsException e) {
                 e.printStackTrace();
             }
